@@ -1,0 +1,17 @@
+{
+  "name": "icenterdata",
+  "version": "0.0.1",
+  "description": "icenter data for localhost",
+  "cordova": {
+    "id": "icenterdata",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "whisperchi",
+  "license": "MIT"
+}

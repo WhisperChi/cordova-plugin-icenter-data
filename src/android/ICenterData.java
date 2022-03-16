@@ -32,12 +32,30 @@ public class ICenterData extends CordovaPlugin {
     private void info(
             JSONArray args,
             CallbackContext callbackContext) {
+        callbackContext.success("Hello from whisperchi!");
+    }
 
+    private void startServer(
+            JSONArray args,
+            CallbackContext callbackContext) {
         cordova.getThreadPool().execute(
                 new Runnable() {
                     @Override
                     public void run() {
-                        callbackContext.success("Hello from whisperchi!");
+                        DataServer.getInstance().start();
+                    }
+                }
+        );
+    }
+
+    private void stopServer(
+            JSONArray args,
+            CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        DataServer.getInstance().stop();
                     }
                 }
         );

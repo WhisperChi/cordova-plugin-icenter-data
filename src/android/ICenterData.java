@@ -1,5 +1,7 @@
 package icenterdata;
 
+import android.content.Context;
+
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
@@ -42,7 +44,10 @@ public class ICenterData extends CordovaPlugin {
                 new Runnable() {
                     @Override
                     public void run() {
-                        DataServer.getInstance().start();
+                        Context context = cordova.getActivity().getApplicationContext();
+                        DataServer dServer = DataServer.getInstance();
+                        dServer.setContext(context);
+                        dServer.start();
                     }
                 }
         );

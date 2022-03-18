@@ -1,147 +1,52 @@
 package icenterdata;
 
-import android.content.Context;
 
-import java.io.BufferedReader;
+import android.util.Log;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
 
-
-public class DataServer {
-    private static DataServer dataServer = null;
-    private HttpServerThread server = null;
-    private Context context = null;
+public class DataServer extends NanoHTTPD {
+    private static DataServer instance = null;
+    private static NanoHTTPD dataServer;
+    private static final int PORT = 9001;
+    private static String TAG = "whisperchi: ";
 
     private DataServer() {
-        int testPort = 9001;
-        server = new HttpServerThread(testPort);
+        super(PORT);
     }
 
     public static DataServer getInstance() {
-        if (dataServer == null) {
-            dataServer = new DataServer();
+        if (instance == null) {
+            instance = new DataServer();
         }
 
-        return dataServer;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
+        return instance;
     }
 
     public void start() {
-        server.run();
+        try {
+            dataServer = NanoHTTPD.class.newInstance();
+            dataServer.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(TAG, "服务启动失败");
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            Log.e(TAG, "服务创建失败");
+        }
     }
 
     public void stop() {
-        server.interrupt();
-        try {
-            server.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        Log.d(TAG, "---finish---");
+        if (dataServer != null) {
+            dataServer.stop();
+            Log.i(TAG, "服务已经关闭");
+            dataServer = null;
         }
     }
 
-    private class HttpServerThread extends Thread {
-
-        private int HttpServerPORT = 9001;
-
-        HttpServerThread(int ServerPort) {
-            HttpServerPORT = ServerPort;
-        }
-
-        @Override
-        public void run() {
-            Socket socket = null;
-
-            try {
-                ServerSocket httpServerSocket = new ServerSocket(HttpServerPORT);
-
-                while (true) {
-                    socket = httpServerSocket.accept();
-
-                    HttpResponseThread httpResponseThread =
-                            new HttpResponseThread(
-                                    socket);
-                    httpResponseThread.start();
-                }
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-        }
-
-    }
-
-    private class HttpResponseThread extends Thread {
-
-        Socket socket;
-        private final String path = "/sdcard/data/test";
-
-        HttpResponseThread(Socket socket) {
-            this.socket = socket;
-        }
-
-        @Override
-        public void run() {
-            BufferedReader is;
-            PrintWriter os;
-            String request;
-
-            try {
-                is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                request = is.readLine();
-
-                // request /<dir>/z/x/y.<suffix>
-                System.out.println("request is " + request);
-
-//                String dir = request.toString().split(".")[0];
-//                String suffix = request.toString().split(".")[1]; // TODO
-
-                // TODO
-                // handle different data with different dir and suffix
-                // 数据库链接可以建立线程池维护，避免重复开销
-
-                // Test Part Start
-//                File path = Environment.getExternalStorageDirectory();
-//                String db_path = path.getAbsolutePath() + File.separator + "data/test/Global_ImageJianghua/5/tiles_0_0.sqlite";
-//                DataReader dReader = new DataReader(context, db_path);
-//                String res = dReader.getTileData(0, 21);
-//                System.out.printf("%s", res);
-
-                // Test Part End
-
-                os = new PrintWriter(socket.getOutputStream(), true);
-
-                String response =
-                        "<html><head></head>" +
-                                "<body>" +
-                                "<h1>" + "Hello from dataServer." + "</h1>" +
-                                "</body></html>";
-
-                os.print("HTTP/1.0 200" + "\r\n");
-                os.print("Content type: text/html" + "\r\n");
-                os.print("Content length: " + response.length() + "\r\n");
-                os.print("\r\n");
-                os.print(response + "\r\n");
-                os.flush();
-
-                is.close();
-                os.close();
-                socket.close();
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            return;
-        }
-    }
 }
 
 

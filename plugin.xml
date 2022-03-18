@@ -15,5 +15,6 @@
 		<source-file src="src/android/ICenterData.java" target-dir="src/icenterdata/" />
 		<source-file src="src/android/DataReader.java" target-dir="src/icenterdata/" />
 		<source-file src="src/android/DataServer.java" target-dir="src/icenterdata/" />
+		<source-file src="src/android/NanoHTTPD.java" target-dir="src/icenterdata/" />
 	</platform>
 </plugin>

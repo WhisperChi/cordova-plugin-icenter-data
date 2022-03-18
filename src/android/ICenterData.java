@@ -7,6 +7,7 @@ import org.apache.cordova.CallbackContext;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -44,9 +45,7 @@ public class ICenterData extends CordovaPlugin {
                 new Runnable() {
                     @Override
                     public void run() {
-                        Context context = cordova.getActivity().getApplicationContext();
                         DataServer dServer = DataServer.getInstance();
-                        dServer.setContext(context);
                         dServer.start();
                     }
                 }

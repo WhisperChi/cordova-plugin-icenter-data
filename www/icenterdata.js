@@ -4,6 +4,9 @@ const dataServer = {
   info: function (arg0, success, error) {
     exec(success, error, "icenterdata", "info", [arg0]);
   },
+  setParams: function(arg0, success, error) {
+    exec(success, error, "icenterdata", "setParams", [arg0]);
+  },
   start: function (arg0, success, error) {
     exec(success, error, "icenterdata", "startServer", [arg0]);
   },

@@ -1,10 +1,8 @@
 package icenterdata;
 
 import android.content.Context;
-import android.os.Environment;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -49,7 +47,7 @@ public class DataServer {
 
     private class HttpServerThread extends Thread {
 
-        private int HttpServerPORT = 8888;
+        private int HttpServerPORT = 9001;
 
         HttpServerThread(int ServerPort) {
             HttpServerPORT = ServerPort;
@@ -106,13 +104,14 @@ public class DataServer {
 
                 // TODO
                 // handle different data with different dir and suffix
+                // 数据库链接可以建立线程池维护，避免重复开销
 
                 // Test Part Start
-                File path = Environment.getExternalStorageDirectory();
-                String db_path = path.getAbsolutePath() + File.separator + "data/test/Global_ImageJianghua/5/tiles_0_0.sqlite";
-                DataReader dReader = new DataReader(context, db_path);
-                String res = dReader.getTileData(0, 21);
-                System.out.printf("%s", res);
+//                File path = Environment.getExternalStorageDirectory();
+//                String db_path = path.getAbsolutePath() + File.separator + "data/test/Global_ImageJianghua/5/tiles_0_0.sqlite";
+//                DataReader dReader = new DataReader(context, db_path);
+//                String res = dReader.getTileData(0, 21);
+//                System.out.printf("%s", res);
 
                 // Test Part End
 
@@ -130,6 +129,9 @@ public class DataServer {
                 os.print("\r\n");
                 os.print(response + "\r\n");
                 os.flush();
+
+                is.close();
+                os.close();
                 socket.close();
 
             } catch (IOException e) {
@@ -139,8 +141,6 @@ public class DataServer {
 
             return;
         }
-
-
     }
 }
 

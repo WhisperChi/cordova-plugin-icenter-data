@@ -1,6 +1,6 @@
 package icenterdata;
 
-
+import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;
@@ -10,9 +10,14 @@ public class DataServer extends NanoHTTPD {
     private static NanoHTTPD dataServer;
     private static final int PORT = 9001;
     private static String TAG = "whisperchi: ";
+    private Context context;
 
     private DataServer() {
         super(PORT);
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public static DataServer getInstance() {
@@ -36,6 +41,10 @@ public class DataServer extends NanoHTTPD {
             e.printStackTrace();
             Log.e(TAG, "服务创建失败");
         }
+
+        // tmp
+        DataReader a = new DataReader(context,"");
+
     }
 
     public void stop() {

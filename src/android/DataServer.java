@@ -43,42 +43,30 @@ public class DataServer extends NanoHTTPD {
             return newFixedLengthResponse(Response.Status.NOT_FOUND, MIME_PLAINTEXT, "Params error : (path is null)");
         }
 
-
-
-//        if (parms.get("username") == null) {
-//            msg += "<form action='?' method='get'>\n";
-//            msg += "<p>Your name: <input type='text' name='username'></p>\n";
-//            msg += "</form>\n";
-//        } else {
-//            msg += "<p>Hello, " + parms.get("username") + "!</p>";
-//        }
-//        Response resp = newFixedLengthResponse(msg + "</body></html>\n");
-//
-//
-//        resp.addHeader("Content-Type","image/png");
-
-        FileInputStream fis = null;
-        File file = new File(Environment.getExternalStorageDirectory()
-                + "/data/test/" + "test.png"); //path exists and its correct
-        try {
-            fis = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-//        return new NanoHTTPD.Response(Response.Status.OK, "image/jpeg", fis, 1000000); //the last parameter is totalBytes. Not sure what to put there
         Response resp = null;
-        try {
-            resp = newFixedLengthResponse(Response.Status.OK,"image/png",fis,fis.available());
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        // test part
+        boolean test = true;
+        if (test) {
+            FileInputStream fis = null;
+            File file = new File(Environment.getExternalStorageDirectory()
+                    + "/data/test/" + "test.png"); //path exists and its correct
+            try {
+                fis = new FileInputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                resp = newFixedLengthResponse(Response.Status.OK,"image/png",fis,fis.available());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        // end test
 
         return resp;
     }
 
-//    private String handleData(String path, String type) {
-//
-//    }
 }
 
 

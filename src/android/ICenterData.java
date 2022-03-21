@@ -1,6 +1,7 @@
 package icenterdata;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
@@ -9,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -46,7 +48,13 @@ public class ICenterData extends CordovaPlugin {
                     @Override
                     public void run() {
                         DataServer dServer = DataServer.getInstance();
-                        dServer.start();
+//                        DataServer dServer = new DataServer();
+                        try {
+                            dServer.start();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.e("whisperchi", "Server start failed.");
+                        }
                     }
                 }
         );

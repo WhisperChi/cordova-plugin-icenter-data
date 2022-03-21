@@ -5,6 +5,7 @@
 		<clobbers target="cordova.plugins.icenterdata" />
 	</js-module>
 	<platform name="android">
+		<framework src="org.nanohttpd:nanohttpd:2.3.0" />
 		<config-file parent="/*" target="res/xml/config.xml">
 			<feature name="icenterdata">
 				<param name="android-package" value="icenterdata.ICenterData" />
@@ -15,6 +16,5 @@
 		<source-file src="src/android/ICenterData.java" target-dir="src/icenterdata/" />
 		<source-file src="src/android/DataReader.java" target-dir="src/icenterdata/" />
 		<source-file src="src/android/DataServer.java" target-dir="src/icenterdata/" />
-		<source-file src="src/android/NanoHTTPD.java" target-dir="src/icenterdata/" />
 	</platform>
 </plugin>

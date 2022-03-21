@@ -4,6 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.Map;
+
+import fi.iki.elonen.NanoHTTPD;
+
 
 public class DataServer extends NanoHTTPD {
     private static DataServer instance = null;
@@ -16,10 +20,6 @@ public class DataServer extends NanoHTTPD {
         super(PORT);
     }
 
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
     public static DataServer getInstance() {
         if (instance == null) {
             instance = new DataServer();
@@ -28,32 +28,24 @@ public class DataServer extends NanoHTTPD {
         return instance;
     }
 
-    public void start() {
-        try {
-            dataServer = NanoHTTPD.class.newInstance();
-            dataServer.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(TAG, "服务启动失败");
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            Log.e(TAG, "服务创建失败");
+//    public DataServer() {
+//        super(9001);
+//    }
+
+
+
+    @Override
+    public Response serve(IHTTPSession session) {
+        String msg = "<html><body><h1>Hello server</h1>\n";
+        Map<String, String> parms = session.getParms();
+        if (parms.get("username") == null) {
+            msg += "<form action='?' method='get'>\n";
+            msg += "<p>Your name: <input type='text' name='username'></p>\n";
+            msg += "</form>\n";
+        } else {
+            msg += "<p>Hello, " + parms.get("username") + "!</p>";
         }
-
-        // tmp
-        DataReader a = new DataReader(context,"");
-
-    }
-
-    public void stop() {
-        Log.d(TAG, "---finish---");
-        if (dataServer != null) {
-            dataServer.stop();
-            Log.i(TAG, "服务已经关闭");
-            dataServer = null;
-        }
+        return newFixedLengthResponse(msg + "</body></html>\n");
     }
 
 }

@@ -51,13 +51,14 @@ public class DataReader extends SQLiteOpenHelper {
 //        }
     }
 
-    public String getTileData(int col, int row) {
+    public byte[] getTileData(int col, int row) {
         SQLiteDatabase db = getReadableDatabase();
         String sql = "select tile_data from tiles where tile_column="+col+" and tile_row="+row;
+//        String sql = "select * from tiles where tile_column="+col+" and tile_row="+row;
         Cursor cur = db.rawQuery(sql,null);
-        String res = "";
+        byte[] res = new byte[0];
         if (cur.moveToFirst()) {
-            res = cur.getBlob(0).toString();
+            res = cur.getBlob(0);
         }
 
         db.close();

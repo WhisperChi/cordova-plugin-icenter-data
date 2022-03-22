@@ -1,5 +1,6 @@
 package icenterdata;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.apache.cordova.CallbackContext;
@@ -40,12 +41,14 @@ public class ICenterData extends CordovaPlugin {
     private void startServer(
             JSONArray args,
             CallbackContext callbackContext) {
+        Context ct = this.cordova.getActivity().getApplicationContext();
         cordova.getThreadPool().execute(
                 new Runnable() {
                     @Override
                     public void run() {
                         DataServer dServer = DataServer.getInstance();
                         try {
+                            dServer.setContext(ct);
                             dServer.start();
                         } catch (IOException e) {
                             e.printStackTrace();

@@ -82,8 +82,9 @@ public class DataServer extends NanoHTTPD {
         DataReader dReader = new DataReader(context, file);
         byte[] data = dReader.getTileData(x, y);
 
+        String mimeType = format.split(",")[0];
         Response resp = null;
-        resp = newFixedLengthResponse(Response.Status.OK, "image/jpg;charset=utf-8", new ByteArrayInputStream(data), data.length);
+        resp = newFixedLengthResponse(Response.Status.OK, mimeType, new ByteArrayInputStream(data), data.length);
 
         return resp;
     }

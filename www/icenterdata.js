@@ -13,6 +13,12 @@ const dataServer = {
   stop: function (arg0, success, error) {
     exec(success, error, "icenterdata", "stopServer", [arg0]);
   },
+  setScale: function (arg0, success, error) {
+    exec(success, error, "icenterdata", "setScale", [arg0]);
+  },
+  setDataDir: function (arg0, success, error) {
+    exec(success, error, "icenterdata", "setDataDir", [arg0]);
+  }
 };
 
 exports.dataServer = dataServer;

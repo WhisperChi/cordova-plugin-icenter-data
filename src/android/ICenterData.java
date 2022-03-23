@@ -71,4 +71,29 @@ public class ICenterData extends CordovaPlugin {
                 }
         );
     }
+
+    private void setScale(
+            JSONArray args,
+            CallbackContext callbackContext) {
+        try {
+            int scale = args.getInt(0);
+            DataServer.getInstance().setScale(scale);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setDataDir(
+            JSONArray args,
+            CallbackContext callbackContext) {
+        String dir = null;
+        try {
+            dir = args.getString(0);
+            DataServer.getInstance().setDataDir(dir);
+            callbackContext.success("setDataDir succeed");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            callbackContext.error("setDataDir failed ");
+        }
+    }
 }

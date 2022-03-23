@@ -18,7 +18,7 @@ import fi.iki.elonen.NanoHTTPD;
 public class DataServer extends NanoHTTPD {
     private static DataServer instance = null;
     private static final int PORT = 9001;
-    private static String TAG = "whisperchi: ";
+    private static final String TAG = "whisperchi: ";
 
     private int scale = 250; // 对应iCenter切片导出的数据库的粒度
     private String dataDir = "/data/test";

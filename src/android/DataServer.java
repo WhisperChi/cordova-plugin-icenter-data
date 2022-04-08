@@ -21,7 +21,7 @@ public class DataServer extends NanoHTTPD {
     private static final String TAG = "whisperchi: ";
 
     private int scale = 250; // 对应iCenter切片导出的数据库的粒度
-    private String dataDir = "/data/test";
+    private String dataDir = "data/test";
     private Context context;
 
     private DataServer() {
@@ -72,7 +72,7 @@ public class DataServer extends NanoHTTPD {
     @TargetApi(Build.VERSION_CODES.O)
     public Response handleZXYData(String path, int z, int x, int y, String format) {
         // test path
-        String file = Environment.getExternalStorageDirectory() + dataDir + "/" + path;
+        String file = Environment.getExternalStorageDirectory() + "/" + dataDir + "/" + path;
         file = file + "/" + z + "/";
 
         // tiles_0_0.sqlite
